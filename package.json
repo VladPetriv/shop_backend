@@ -1,0 +1,30 @@
+{
+  "name": "shop_backend",
+  "version": "1.0.0",
+  "description": "backend side for shop",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/VladPetriv/shop_backend.git"
+  },
+  "keywords": [],
+  "author": "Vlad Petriv <vladpetriv05@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VladPetriv/shop_backend/issues"
+  },
+  "homepage": "https://github.com/VladPetriv/shop_backend#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "pg": "^8.7.1",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
