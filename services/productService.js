@@ -8,6 +8,7 @@ class ProductService {
       brandId,
       typeId,
       img: fileName,
+      info,
     });
     return product;
   }

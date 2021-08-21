@@ -22,7 +22,7 @@ Brand.belongsToMany(Type, { through: TypeBrand });
 Cart.belongsTo(User);
 Cart.hasMany(CartProduct);
 //Product info relation
-ProductInfo.belongsTo(Product);
+ProductInfo.belongsTo(Product, { as: 'info' });
 //Rating relation
 Rating.belongsTo(User);
 Rating.belongsTo(Product);
