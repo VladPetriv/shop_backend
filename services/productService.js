@@ -1,8 +1,14 @@
 const { Product, ProudctInfo } = require('../models/models.js');
 
 class ProductService {
-  async create(name, price, brandId, typeId, info, img) {
-    const product = await Product.create({ name, price, brandId, typeId, img });
+  async create(name, price, brandId, typeId, fileName, info) {
+    const product = await Product.create({
+      name,
+      price,
+      brandId,
+      typeId,
+      img: fileName,
+    });
     return product;
   }
   async getAll() {
