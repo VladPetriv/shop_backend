@@ -1,12 +1,11 @@
 const path = require('path');
 const uuid = require('uuid');
-const { ProductInfo } = require('../models/models.js');
 const ProductService = require('../services/productService.js');
 
 class ProductController {
   async createProduct(req, res) {
     try {
-      let { name, price, brandId, typeId, info } = req.body;
+      const { name, price, brandId, typeId, description } = req.body;
       const { img } = req.files;
       const fileName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
@@ -15,21 +14,11 @@ class ProductController {
         price,
         brandId,
         typeId,
-        fileName
+        fileName,
+        description
       );
-      if (info) {
-        info = JSON.parse(info);
-        info.forEach((i) => {
-          ProductInfo.create({
-            title: i.title,
-            description: i.description,
-            productId: product.id,
-          });
-        });
-      }
       return res.json(product);
     } catch (err) {
-      console.log(err);
       return res.status(500).json(err);
     }
   }

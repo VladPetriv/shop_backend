@@ -1,14 +1,14 @@
-const { Product, ProudctInfo } = require('../models/models.js');
+const { Product } = require('../models/models.js');
 
 class ProductService {
-  async create(name, price, brandId, typeId, fileName, info) {
+  async create(name, price, brandId, typeId, img, description) {
     const product = await Product.create({
       name,
       price,
       brandId,
       typeId,
-      img: fileName,
-      info,
+      img,
+      description,
     });
     return product;
   }
@@ -19,7 +19,6 @@ class ProductService {
   async getOne(id) {
     const product = await Product.findOne({
       where: { id },
-      include: [{ model: ProudctInfo, as: 'info' }],
     });
     return product;
   }

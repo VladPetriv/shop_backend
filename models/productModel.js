@@ -21,6 +21,10 @@ const Product = db.define('product', {
     allowNull: false,
     defaultValue: 0,
   },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   img: {
     type: DataTypes.STRING,
     allowNull: false,
