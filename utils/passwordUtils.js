@@ -7,27 +7,28 @@ const encrypt = (password) => {
   const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
 
   const encrypted = Buffer.concat([cipher.update(password), cipher.final()]);
-
-  return {
-    iv: iv.toString('hex'),
-    content: encrypted.toString('hex'),
-  };
+  return encrypted.toString('hex');
 };
 
 const decrypt = (hash) => {
   const decipher = crypto.createDecipheriv(
     algorithm,
     secretKey,
-    Buffer.from(hash.iv, 'hex')
+    Buffer.from(iv.toString('hex'), 'hex')
   );
 
   const decrpyted = Buffer.concat([
-    decipher.update(Buffer.from(hash.content, 'hex')),
+    decipher.update(Buffer.from(hash, 'hex')),
     decipher.final(),
   ]);
 
   return decrpyted.toString();
 };
+
+const test = 'hello wordl';
+
+console.log(encrypt(test));
+console.log(decrypt(encrypt(test)));
 
 module.exports = {
   encrypt,
