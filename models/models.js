@@ -6,11 +6,12 @@ const Type = require('./typeModel.js');
 const Rating = require('./ratingModels.js');
 const Brand = require('./brandModel.js');
 const TypeBrand = require('./typeBrandModel.js');
+
 //Product relation
 Product.belongsTo(Brand);
 Product.belongsTo(Type);
 Product.hasMany(Rating);
-Product.hasMany(CartProduct);
+Product.hasMany(CartProduct, { as: 'cart_products' });
 
 //Brand relation
 Brand.hasMany(Product);
@@ -18,7 +19,11 @@ Brand.belongsToMany(Type, { through: TypeBrand });
 
 //Cart relation
 Cart.belongsTo(User);
-Cart.hasMany(CartProduct);
+Cart.hasMany(CartProduct, { as: 'cart_products' });
+
+//Cart product realation
+CartProduct.belongsTo(Cart, { as: 'cart' });
+CartProduct.belongsTo(Product, { as: 'product' });
 
 //Rating relation
 Rating.belongsTo(User);

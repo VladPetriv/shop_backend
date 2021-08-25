@@ -1,11 +1,11 @@
 const Router = require('express');
-const authmiddlewares = require('../middlewares/chechUserMiddleware');
+const authmiddleware = require('../middlewares/chechUserMiddleware');
 const UserController = require('../controllers/userController.js');
 
 const router = Router();
 
 router.post('/registration', UserController.registarion);
 router.post('/login', UserController.login);
-router.get('/auth', authmiddlewares, UserController.check);
+router.get('/auth', authmiddleware, UserController.check);
 
 module.exports = router;

@@ -14,7 +14,7 @@ class UserController {
       const hashPassword = await bcrypt.hash(password, 5);
       const user = await UserService.create(login, hashPassword);
       const cart = await CartService.create(user.id);
-      const token = generateToken(user.id, login);
+      const token = generateToken(user.id, login, cart);
       return res.json({ token });
     } catch (err) {
       res.status(500).json(err);
@@ -37,8 +37,9 @@ class UserController {
       return res.status(500).json(err);
     }
   }
-  async check() {
-    const token = generateJwt(req.user.id, req.user.email);
+  async check(req, res) {
+    const token = generateToken(req.user.id, req.user.email);
+    console.log(req.user);
     return res.json({ token });
   }
 }
