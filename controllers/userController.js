@@ -39,7 +39,6 @@ class UserController {
   }
   async check(req, res) {
     const token = generateToken(req.user.id, req.user.email);
-    console.log(req.user);
     return res.json({ token });
   }
 }
