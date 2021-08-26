@@ -17,9 +17,7 @@ class ProductService {
     return products;
   }
   async getOne(id) {
-    const product = await Product.findOne({
-      where: { id },
-    });
+    const product = await Product.findByPk(id, { raw: true });
     return product;
   }
 }

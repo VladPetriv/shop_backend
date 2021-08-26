@@ -6,7 +6,7 @@ class CartService {
     return cart;
   }
   async getOne(id) {
-    const cart = await Cart.findByPk(id, { include: ['cart_products'] });
+    const cart = await Cart.findByPk(id, { raw: true });
     return cart;
   }
 }

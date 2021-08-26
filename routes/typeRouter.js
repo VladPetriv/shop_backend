@@ -3,7 +3,9 @@ const TypeController = require('../controllers/typeController.js');
 
 const router = Router();
 
-router.get('/', TypeController.getAllTypes);
+router.get('/items/', TypeController.getAllTypes);
+router.get('/items/:id', TypeController.getOneType);
 router.post('/create', TypeController.createType);
+router.delete('/items/:id', TypeController.deleteType);
 
 module.exports = router;
