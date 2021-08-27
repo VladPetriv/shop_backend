@@ -22,7 +22,7 @@ class ProductController {
   }
   async createProduct(req, res) {
     try {
-      const { }name, price, brandId, typeId, description  = req.body;
+      const { name, price, brandId, typeId, description } = req.body;
       const { img } = req.files;
       const fileName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
@@ -51,9 +51,16 @@ class ProductController {
   async updateProduct(req, res) {
     try {
       const { id } = req.params;
-      const {name, price, brandId, typeId, description } = req.body;
-      const product = await ProductService.update(id,name,price,brandId,typeId,description);
-      return res.json(product)
+      const { name, price, brandId, typeId, description } = req.body;
+      const product = await ProductService.update(
+        id,
+        name,
+        price,
+        brandId,
+        typeId,
+        description
+      );
+      return res.json(product);
     } catch (err) {
       return res.status(500).json(err);
     }

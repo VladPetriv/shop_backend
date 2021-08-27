@@ -3,8 +3,8 @@ const CartProductService = require('../services/cartProductService.js');
 class CartProductController {
   async getAllCartProduct(req, res) {
     try {
-      const { cart } = req.user;
-      const cartProducts = await CartProductService.getAll(cart.id);
+      const { cartId } = req.params;
+      const cartProducts = await CartProductService.getAll(cartId);
       return res.json(cartProducts);
     } catch (err) {
       return res.status(500).json(err);
