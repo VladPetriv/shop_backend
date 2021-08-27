@@ -20,5 +20,6 @@ const start = async () => {
   await db.sync().catch((err) => console.error(err));
   app.listen(PORT, () => console.log(`Server started at port:${PORT}`));
 };
-
 start();
+
+module.exporst = app;
