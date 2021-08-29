@@ -13,12 +13,12 @@ class TypeService {
     const type = Type.create({ name });
     return type;
   }
-  async delet(id) {
+  async delete(id) {
     const type = await Type.destroy({ where: { id } });
     return type;
   }
   async update(id, name) {
-    const type = await Type.update({ name }, { raw: true });
+    const type = await Type.update({ name }, { where: { id }, raw: true });
     return type;
   }
 }
