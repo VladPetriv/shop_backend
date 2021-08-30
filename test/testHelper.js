@@ -1,4 +1,4 @@
-const { Type, Product, Brand } = require('../models/models.js');
+const { Type, Product, Brand, User } = require('../models/models.js');
 const TypeService = require('../services/typeService.js');
 const BrandService = require('../services/brandService.js');
 const ProductService = require('../services/productService');
@@ -48,8 +48,17 @@ const productTestHelper = () => {
   };
 };
 
+const userTestHelper = () => {
+  return {
+    async destroyTestUser() {
+      await User.destroy({ where: {} });
+    },
+  };
+};
+
 module.exports = {
   brandTestHelper,
   typeTestHelper,
   productTestHelper,
+  userTestHelper,
 };
