@@ -36,7 +36,7 @@ class TypeController {
       return res.status(500).json(err);
     }
   }
-  async update(req, res) {
+  async updateType(req, res) {
     try {
       const { id } = req.params;
       const { name } = req.body;
