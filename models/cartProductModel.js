@@ -1,13 +1,13 @@
-const { DataTypes } = require('sequelize');
-const db = require('../db.js');
+import pkg from 'sequelize';
+import db from '../db.js';
 
 const CartProduct = db.define('cart_product', {
   id: {
-    type: DataTypes.INTEGER,
+    type: pkg.DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
   },
 });
 
-module.exports = CartProduct;
+export default CartProduct;

@@ -1,5 +1,5 @@
-const { CartProduct } = require('../models/models.js');
-const ProductService = require('./productService');
+import { CartProduct } from '../models/models.js';
+import ProductService from './productService.js';
 
 class CartProductService {
   async getAll(cartId) {
@@ -38,4 +38,4 @@ class CartProductService {
   }
 }
 
-module.exports = new CartProductService();
+export default new CartProductService();

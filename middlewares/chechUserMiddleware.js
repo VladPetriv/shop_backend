@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-module.exports = (req, res, next) => {
+const checkUserAuthorization = (req, res, next) => {
   if (req.method === 'OPTION') {
     next();
   }
@@ -16,3 +16,4 @@ module.exports = (req, res, next) => {
     return res.status(401).json('User is not logined');
   }
 };
+export default checkUserAuthorization;

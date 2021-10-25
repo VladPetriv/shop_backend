@@ -1,7 +1,7 @@
-const bcrypt = require('bcryptjs');
-const { generateToken } = require('../utils/jwtUtils.js');
-const UserService = require('../services/userService.js');
-const CartService = require('../services/cartService.js');
+import bcrypt from 'bcryptjs';
+import generateToken from '../utils/jwtUtils.js';
+import UserService from '../services/userService.js';
+import CartService from '../services/cartService.js';
 
 class UserController {
   async registarion(req, res) {
@@ -17,6 +17,7 @@ class UserController {
       const token = generateToken(user.id, login, cart);
       return res.json({ token });
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   }
@@ -43,4 +44,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+export default new UserController();

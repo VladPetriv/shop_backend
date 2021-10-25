@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 const { Type, Product, Brand, User } = require('../models/models.js');
 const TypeService = require('../services/typeService.js');
 const BrandService = require('../services/brandService.js');
 const ProductService = require('../services/productService');
 const UserService = require('../services/userService.js');
+=======
+import { Type, Product, Brand, User } from '../models/models.js';
+import TypeService from '../services/typeService.js';
+import BrandService from '../services/brandService.js';
+import ProductService from '../services/productService';
+>>>>>>> features
 
 const brandTestHelper = () => {
   return {
@@ -57,9 +64,13 @@ const userTestHelper = () => {
   };
 };
 
+<<<<<<< HEAD
 module.exports = {
   brandTestHelper,
   typeTestHelper,
   productTestHelper,
   userTestHelper,
  };
+=======
+export { brandTestHelper, typeTestHelper, productTestHelper, userTestHelper };
+>>>>>>> features

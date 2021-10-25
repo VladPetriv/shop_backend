@@ -1,4 +1,4 @@
-const { User } = require('../models/models.js');
+import { User } from '../models/models.js';
 
 class UserService {
   async getAll() {
@@ -23,4 +23,4 @@ class UserService {
   }
 }
 
-module.exports = new UserService();
+export default new UserService();

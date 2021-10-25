@@ -1,5 +1,7 @@
-const app = require('./index.js');
-const db = require('./db.js');
+import app from './index.js';
+import db from './db.js';
+
+const PORT = process.env.PORT || 3000;
 
 const start = async () => {
   await db.authenticate().catch((err) => console.error(err));

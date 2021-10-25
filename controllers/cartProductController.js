@@ -1,4 +1,4 @@
-const CartProductService = require('../services/cartProductService.js');
+import CartProductService from '../services/cartProductService.js';
 
 class CartProductController {
   async getAllCartProduct(req, res) {
@@ -54,4 +54,4 @@ class CartProductController {
   }
 }
 
-module.exports = new CartProductController();
+export default new CartProductController();
