@@ -1,4 +1,4 @@
-const { Type } = require('../models/models.js');
+import { Type } from '../models/models.js';
 
 class TypeService {
   async getAll() {
@@ -23,4 +23,4 @@ class TypeService {
   }
 }
 
-module.exports = new TypeService();
+export default new TypeService();

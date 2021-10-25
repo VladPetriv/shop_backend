@@ -1,6 +1,7 @@
-const supertest = require('supertest');
-const app = require('../index.js');
-const { typeTestHelper } = require('./testHelper.js');
+import supertest from 'supertest';
+import app from '../index.js';
+import { typeTestHelper } from './testHelper.js';
+
 const request = supertest(app);
 
 describe('Type test', () => {

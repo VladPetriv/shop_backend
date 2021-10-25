@@ -1,11 +1,11 @@
-const User = require('./userModel.js');
-const Cart = require('./cartModel.js');
-const CartProduct = require('./cartProductModel.js');
-const Product = require('./productModel.js');
-const Type = require('./typeModel.js');
-const Rating = require('./ratingModels.js');
-const Brand = require('./brandModel.js');
-const TypeBrand = require('./typeBrandModel.js');
+import User from './userModel.js';
+import Cart from './cartModel.js';
+import CartProduct from './cartProductModel.js';
+import Product from './productModel.js';
+import Type from './typeModel.js';
+import Rating from './ratingModels.js';
+import Brand from './brandModel.js';
+import TypeBrand from './typeBrandModel.js';
 
 //Product relation
 Product.belongsTo(Brand);
@@ -37,13 +37,4 @@ Type.belongsToMany(Brand, { through: TypeBrand });
 User.hasOne(Cart);
 User.hasMany(Rating);
 
-module.exports = {
-  User,
-  Cart,
-  CartProduct,
-  Product,
-  Type,
-  Rating,
-  Brand,
-  TypeBrand,
-};
+export { User, Cart, CartProduct, Product, Type, Rating, Brand, TypeBrand };

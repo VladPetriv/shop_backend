@@ -1,6 +1,6 @@
-const path = require('path');
-const uuid = require('uuid');
-const ProductService = require('../services/productService.js');
+import path from 'path';
+import { v4 } from 'uuid';
+import ProductService from '../services/productService.js';
 
 class ProductController {
   async getAllProduct(req, res) {
@@ -24,7 +24,7 @@ class ProductController {
     try {
       const { name, price, brandId, typeId, description } = req.body;
       const { img } = req.files;
-      const fileName = uuid.v4() + '.jpg';
+      const fileName = v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
       const product = await ProductService.create(
         name,
@@ -67,4 +67,4 @@ class ProductController {
   }
 }
 
-module.exports = new ProductController();
+export default new ProductController();

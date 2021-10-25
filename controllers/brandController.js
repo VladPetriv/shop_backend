@@ -1,4 +1,4 @@
-const BrandService = require('../services/brandService.js');
+import BrandService from '../services/brandService.js';
 
 class BrandController {
   async getAllBrands(req, res) {
@@ -48,4 +48,4 @@ class BrandController {
   }
 }
 
-module.exports = new BrandController();
+export default new BrandController();

@@ -1,4 +1,4 @@
-const { Brand } = require('../models/models.js');
+import { Brand } from '../models/models.js';
 
 class BrandService {
   async getAll() {
@@ -23,4 +23,4 @@ class BrandService {
   }
 }
 
-module.exports = new BrandService();
+export default new BrandService();

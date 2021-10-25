@@ -1,16 +1,16 @@
-const { DataTypes } = require('sequelize');
-const db = require('../db.js');
+import pkg from 'sequelize';
+import db from '../db.js';
 
 const Rating = db.define('rating', {
   id: {
-    type: DataTypes.INTEGER,
+    type: pkg.DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
   value: {
-    type: DataTypes.INTEGER,
+    type: pkg.DataTypes.INTEGER,
     allowNull: false,
   },
 });
 
-module.exports = Rating;
+export default Rating;

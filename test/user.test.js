@@ -1,7 +1,8 @@
-const supertest = require('supertest');
-const app = require('../index.js');
+import supertest from 'supertest';
+import app from '../index.js';
+import { userTestHelper } from './testHelper.js';
+
 const request = supertest(app);
-const { userTestHelper } = require('./testHelper.js');
 
 describe('User test', () => {
   beforeEach(async () => await userTestHelper().destroyTestUser());

@@ -1,4 +1,4 @@
-const TypeService = require('../services/typeService.js');
+import TypeService from '../services/typeService.js';
 
 class TypeController {
   async getAllTypes(req, res) {
@@ -48,4 +48,4 @@ class TypeController {
   }
 }
 
-module.exports = new TypeController();
+export default new TypeController();
