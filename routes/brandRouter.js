@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-const Router = require('express');
-const BrandController = require('../controllers/brandController.js');
-
-=======
 import { Router } from 'express';
 import BrandController from '../controllers/brandController.js';
->>>>>>> features
 const router = Router();
 
 router.get('/items/', BrandController.getAllBrands);

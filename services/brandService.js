@@ -9,6 +9,10 @@ class BrandService {
     const brand = await Brand.findByPk(id, { raw: true });
     return brand;
   }
+  async getOneByName(name) {
+    const brand = await Brand.findAll({ where: { name } }, { raw: true });
+    return brand;
+  }
   async create(name) {
     const brand = await Brand.create({ name });
     return brand;

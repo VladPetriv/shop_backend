@@ -9,6 +9,10 @@ class TypeService {
     const type = await Type.findByPk(id, { raw: true });
     return type;
   }
+  async getOneByName(name) {
+    const type = await Type.findAll({ where: { name } });
+    return type;
+  }
   async create(name) {
     const type = Type.create({ name });
     return type;

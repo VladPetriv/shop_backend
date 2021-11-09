@@ -9,16 +9,14 @@ describe('User test', () => {
   afterAll(async () => await userTestHelper().destroyTestUser());
 
   describe('POST user => api/registration', () => {
-    it('It should create user and return jwt token with 200 as status code', async () => {
+    it('It should create user and return user jwt token', async () => {
       const response = await request.post('/api/registration').send({
         login: 'test_user',
         password: 'test_password',
       });
 
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
-      expect(response.body).toBeInstanceOf(Object);
-      expect(response.body.token).not.toBeUndefind;
+      expect(response.body).toHaveProperty('token');
     });
   });
 
@@ -28,15 +26,13 @@ describe('User test', () => {
     beforeEach(async () => {
       await request.post('/api/registration').send({ login, password });
     });
-    it('it should login user and return token with 200 as status code', async () => {
+    it('it should  return user jwt token', async () => {
       const response = await request.post('/api/login').send({
         login,
         password,
       });
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
-      expect(response.body).toBeInstanceOf(Object);
-      expect(response.body.token).not.toBeUndefind;
+      expect(response.body).toHaveProperty('token');
     });
   });
 });
