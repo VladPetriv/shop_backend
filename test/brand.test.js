@@ -6,38 +6,46 @@ const request = supertest(app);
 describe('Brand test', () => {
   beforeEach(async () => brandTestHelper().destroyAllBrands());
   afterAll(async () => await brandTestHelper().destroyAllBrands());
+
   describe('GET brands => /api/brand/items', () => {
-    it('It should return  brands with 200 as status code', async () => {
+    it('It should return all brands', async () => {
       const response = await request.get('/api/brand/items');
       expect(response.status).toBe(200);
       expect(response.body).toStrictEqual([]);
       expect(response.body.length).toBe(0);
-      return response;
     });
   });
+
   describe('GET brand => /api/brand/items/id', () => {
     let id;
     beforeEach(async () => {
       id = await brandTestHelper().addNewTestBrand();
     });
-    it('It should return brand with 200 as status code', async () => {
+    it(`It should return brand with id-${id}`, async () => {
       const response = await request.get(`/api/brand/items/${id}`);
       expect(response.status).toBe(200);
-      expect(response.body).toBeInstanceOf(Object);
+      expect(response.body).toHaveProperty('id');
+      expect(response.body).toHaveProperty('name');
       expect(response.body.id).toBe(id);
       expect(response.body.name).toBe('test');
-      return response;
+    });
+    it('it should throw error', async () => {
+      const response = await request.get(`/api/brand/items/${id + 1}`);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Brand with this id doesnt exist');
     });
   });
   describe('POST brand => api/brand/create', () => {
-    it('It should create new brand and return 200 as status code', async () => {
+    const name = 'test';
+    it(`It should create new brand with name - ${name}`, async () => {
       const response = await request.post('/api/brand/create').send({
-        name: 'test',
+        name,
       });
       expect(response.status).toBe(200);
-      expect(response.body).toBeInstanceOf(Object);
-      expect(response.body.id).not.toBeUndefind;
-      expect(response.body.name).toBe('test');
+      expect(response.body).toHaveProperty('id');
+      expect(response.body).toHaveProperty('name');
+      expect(response.body.name).toBe(name);
     });
   });
 
@@ -46,10 +54,15 @@ describe('Brand test', () => {
     beforeEach(async () => {
       id = await brandTestHelper().addNewTestBrand();
     });
-    it('It should delete brand and return 200 as status code', async () => {
+    it('It should delete brand', async () => {
       const response = await request.delete(`/api/brand/items/${id}`);
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
+    });
+    it('it should throw an error', async () => {
+      const response = await request.delete(`/api/brand/items/${id + 1}`);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Brand with this id doesnt exist');
     });
   });
 
@@ -58,10 +71,15 @@ describe('Brand test', () => {
     beforeEach(async () => {
       id = await brandTestHelper().addNewTestBrand();
     });
-    it('It should update brand and return 200 as status code', async () => {
+    it('It should update brand', async () => {
       const response = await request.put(`/api/brand/items/${id}`);
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
+    });
+    it('it should throw an error', async () => {
+      const response = await request.put(`/api/brand/items/${id + 1}`);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Brand with this id doesnt exist');
     });
   });
 });
