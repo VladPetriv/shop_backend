@@ -6,9 +6,9 @@ class ProductController {
   async getAllProduct(req, res) {
     try {
       const products = await ProductService.getAll();
-      return res.json(products);
+      res.json(products);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
   async getOneProduct(req, res) {
@@ -34,18 +34,18 @@ class ProductController {
         fileName,
         description
       );
-      return res.json(product);
+      res.json(product);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
   async deleteProduct(req, res) {
     try {
       const { id } = req.params;
       const product = await ProductService.delete(id);
-      return res.json(product);
+      res.json(product);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
   async updateProduct(req, res) {
@@ -60,9 +60,9 @@ class ProductController {
         typeId,
         description
       );
-      return res.json(product);
+      res.json(product);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
 }

@@ -4,36 +4,37 @@ class TypeController {
   async getAllTypes(req, res) {
     try {
       const types = await TypeService.getAll();
-      return res.json(types);
+      res.json(types);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
   async getOneType(req, res) {
     try {
       const { id } = req.params;
       const type = await TypeService.getOne(id);
-      return res.json(type);
+      res.json(type);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
   async createType(req, res) {
     try {
       const { name } = req.body;
       const type = await TypeService.create(name);
-      return res.json(type);
+      res.json(type);
     } catch (err) {
-      return res.status(500).json(err);
+      console.log(err);
+      res.status(500).json(err.message);
     }
   }
   async deleteType(req, res) {
     try {
       const { id } = req.params;
       const type = await TypeService.delete(id);
-      return res.json(type);
+      res.json(type);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
   async updateType(req, res) {
@@ -41,9 +42,9 @@ class TypeController {
       const { id } = req.params;
       const { name } = req.body;
       const type = await TypeService.update(id, name);
-      return res.json(type);
+      res.json(type);
     } catch (err) {
-      return res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   }
 }
