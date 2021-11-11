@@ -9,8 +9,8 @@ class CartService {
     const cart = await Cart.findByPk(id, { raw: true });
     return cart;
   }
-  async create(id) {
-    const cart = await Cart.create({ userId: id });
+  async create(userId) {
+    const cart = await Cart.create({ userId });
     return cart;
   }
   async delete(id) {

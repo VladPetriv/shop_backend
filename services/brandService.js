@@ -10,7 +10,7 @@ class BrandService {
     return brand;
   }
   async getOneByName(name) {
-    const brand = await Brand.findAll({ where: { name } }, { raw: true });
+    const brand = await Brand.findOne({ where: { name } });
     return brand;
   }
   async create(name) {

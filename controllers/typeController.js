@@ -22,18 +22,25 @@ class TypeController {
     try {
       const { name } = req.body;
       const type = await TypeService.create(name);
-      res.json(type);
+      res.json({ type, message: 'Type was created' });
     } catch (err) {
-      console.log(err);
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
   async deleteType(req, res) {
     try {
       const { id } = req.params;
-      const type = await TypeService.delete(id);
-      res.json(type);
+      const candidate = await TypeService.getOne(id);
+      if (!candidate) {
+        return res
+          .status(400)
+          .json({ message: 'Type with this id doesnt exist' });
+      }
+      await TypeService.delete(id);
+      res.json({ message: 'Type was deleted' });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
@@ -41,9 +48,16 @@ class TypeController {
     try {
       const { id } = req.params;
       const { name } = req.body;
-      const type = await TypeService.update(id, name);
-      res.json(type);
+      const candidate = await TypeService.getOne(id);
+      if (!candidate) {
+        return res
+          .status(400)
+          .json({ message: 'Type with this id doesnt exist' });
+      }
+      await TypeService.update(id, name);
+      res.json({ message: 'Type was updated' });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }

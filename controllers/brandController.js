@@ -6,7 +6,8 @@ class BrandController {
       const brands = await BrandService.getAll();
       res.json(brands);
     } catch (err) {
-      res.status(500).json(err);
+      console.error({ err });
+      res.status(500).json(err.message);
     }
   }
   async getOneBrand(req, res) {
@@ -27,8 +28,9 @@ class BrandController {
     try {
       const { name } = req.body;
       const brand = await BrandService.create(name);
-      res.json(brand);
+      res.json({ brand, message: 'Brand was created' });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
@@ -41,8 +43,8 @@ class BrandController {
           .status(400)
           .json({ message: 'Brand with this id doesnt exist' });
       }
-      const brand = await BrandService.delete(id);
-      res.json(brand);
+      await BrandService.delete(id);
+      res.json({ message: 'Brand was deleted' });
     } catch (err) {
       res.status(500).json(err.message);
     }
@@ -57,8 +59,8 @@ class BrandController {
           .status(400)
           .json({ message: 'Brand with this id doesnt exist' });
       }
-      const brand = await BrandService.update(id, name);
-      res.json(brand);
+      await BrandService.update(id, name);
+      res.json({ message: 'Brand was updated' });
     } catch (err) {
       res.status(500).json(err.message);
     }

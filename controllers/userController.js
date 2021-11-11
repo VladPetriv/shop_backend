@@ -17,7 +17,7 @@ class UserController {
       const token = generateToken(user.id, login, cart);
       res.json({ token });
     } catch (err) {
-      console.log(err);
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
@@ -35,14 +35,16 @@ class UserController {
       const token = generateToken(user.id, login);
       res.json({ token });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
   async check(req, res) {
     try {
       const token = generateToken(req.user.id, req.user.email);
-      return res.json({ token });
+      res.json({ token });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
