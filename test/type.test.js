@@ -23,7 +23,8 @@ describe('Type test', () => {
     it('it should return type and 200 as status code', async () => {
       const response = await request.get(`/api/type/items/${id}`);
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
+      expect(response.body).toHaveProperty('id');
+      expect(response.body).toHaveProperty('name');
       expect(response.body.id).toBe(id);
       expect(response.body.name).toBe('test');
     });
@@ -34,9 +35,10 @@ describe('Type test', () => {
         name: 'test',
       });
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
-      expect(response.body).toBeInstanceOf(Object);
-      expect(response.body.name).toBe('test');
+      expect(response.body).toHaveProperty('type');
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.type.name).toBe('test');
+      expect(response.body.message).toBe('Type was created');
     });
   });
 
@@ -45,12 +47,18 @@ describe('Type test', () => {
     beforeEach(async () => {
       id = await typeTestHelper().addNewTestType();
     });
-    it('It should delete type and return 200 as status code', async () => {
+    it('It should delete type and return message', async () => {
       const response = await request.delete(`/api/type/items/${id}`);
 
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
-      expect(response.body).toBe(1);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Type was deleted');
+    });
+    it('it should throw error that type doesnt exist', async () => {
+      const response = await request.delete(`/api/type/items/${id + 1}`);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Type with this id doesnt exist');
     });
   });
 
@@ -64,8 +72,14 @@ describe('Type test', () => {
         .put(`/api/type/items/${id}`)
         .send({ name: 'updated_type' });
       expect(response.status).toBe(200);
-      expect(response.body).not.toBeUndefind;
-      expect(response.body).toStrictEqual([1]);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Type was updated');
+    });
+    it('it should throw error that type doesnt exist', async () => {
+      const response = await request.put(`/api/type/items/${id + 1}`);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Type with this id doesnt exist');
     });
   });
 });

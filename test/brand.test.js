@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import app from '../index.js';
 import { brandTestHelper } from './testHelper.js';
+
 const request = supertest(app);
 
 describe('Brand test', () => {
@@ -29,7 +30,7 @@ describe('Brand test', () => {
       expect(response.body.id).toBe(id);
       expect(response.body.name).toBe('test');
     });
-    it('it should throw error', async () => {
+    it('it should throw error that brand doesnt exist', async () => {
       const response = await request.get(`/api/brand/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
@@ -43,9 +44,11 @@ describe('Brand test', () => {
         name,
       });
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body).toHaveProperty('name');
-      expect(response.body.name).toBe(name);
+      expect(response.body).toHaveProperty('brand');
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.brand).toHaveProperty('id');
+      expect(response.body.brand).toHaveProperty('name');
+      expect(response.body.brand.name).toBe(name);
     });
   });
 
@@ -57,8 +60,10 @@ describe('Brand test', () => {
     it('It should delete brand', async () => {
       const response = await request.delete(`/api/brand/items/${id}`);
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Brand was deleted');
     });
-    it('it should throw an error', async () => {
+    it('it should throw an error that brand doesnt exits', async () => {
       const response = await request.delete(`/api/brand/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
@@ -74,8 +79,10 @@ describe('Brand test', () => {
     it('It should update brand', async () => {
       const response = await request.put(`/api/brand/items/${id}`);
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Brand was updated');
     });
-    it('it should throw an error', async () => {
+    it('it should throw an error that brand doesnt exist', async () => {
       const response = await request.put(`/api/brand/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');

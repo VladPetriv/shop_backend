@@ -1,7 +1,9 @@
 import { Type, Product, Brand, User } from '../models/models.js';
 import TypeService from '../services/typeService.js';
 import BrandService from '../services/brandService.js';
-import ProductService from '../services/productService';
+import ProductService from '../services/productService.js';
+import UserService from '../services/userService.js';
+import CartService from '../services/cartService.js';
 
 const brandTestHelper = () => {
   return {
@@ -52,6 +54,10 @@ const userTestHelper = () => {
   return {
     async destroyTestUser() {
       await User.destroy({ where: {} });
+    },
+    async createTestUser(login, password) {
+      const user = await UserService.create(login, password);
+      await CartService.create(user.id);
     },
   };
 };

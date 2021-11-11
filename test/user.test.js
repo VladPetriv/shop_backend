@@ -9,7 +9,12 @@ describe('User test', () => {
   afterAll(async () => await userTestHelper().destroyTestUser());
 
   describe('POST user => api/registration', () => {
-    it('It should create user and return user jwt token', async () => {
+    const login = 'test_login';
+    const password = 'test_password';
+    beforeAll(async () => {
+      await userTestHelper().createTestUser(login, password);
+    });
+    it('It should create user and return jwt token', async () => {
       const response = await request.post('/api/registration').send({
         login: 'test_user',
         password: 'test_password',
@@ -26,7 +31,7 @@ describe('User test', () => {
     beforeEach(async () => {
       await request.post('/api/registration').send({ login, password });
     });
-    it('it should  return user jwt token', async () => {
+    it('it should  return jwt token', async () => {
       const response = await request.post('/api/login').send({
         login,
         password,
