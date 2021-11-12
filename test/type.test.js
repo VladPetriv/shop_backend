@@ -28,6 +28,12 @@ describe('Type test', () => {
       expect(response.body.id).toBe(id);
       expect(response.body.name).toBe('test');
     });
+    it('it should throw error that type with this id doesnt exits', async () => {
+      const response = await request.get(`/api/type/items/${id + 1}`);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Type with this id doesnt exist');
+    });
   });
   describe('POST type => /api/type/create', () => {
     it('It should create type and return 200 as status code', async () => {
