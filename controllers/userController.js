@@ -41,7 +41,8 @@ class UserController {
   }
   async check(req, res) {
     try {
-      const token = generateToken(req.user.id, req.user.email);
+      const { id, email } = req.user;
+      const token = generateToken(id, email);
       res.json({ token });
     } catch (err) {
       console.error({ err });

@@ -8,6 +8,7 @@ class ProductController {
       const products = await ProductService.getAll();
       res.json(products);
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
@@ -15,8 +16,14 @@ class ProductController {
     try {
       const { id } = req.params;
       const product = await ProductService.getOne(id);
+      if (!product) {
+        return res
+          .status(400)
+          .json({ message: 'Product with this id doesnt exist' });
+      }
       return res.json(product);
     } catch (err) {
+      console.error({ err });
       return res.status(500).json(err);
     }
   }
@@ -34,17 +41,25 @@ class ProductController {
         fileName,
         description
       );
-      res.json(product);
+      res.json({ product, message: 'Product was created' });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
   async deleteProduct(req, res) {
     try {
       const { id } = req.params;
-      const product = await ProductService.delete(id);
-      res.json(product);
+      const candidate = await ProductService.getOne(id);
+      if (!candidate) {
+        return res
+          .status(400)
+          .json({ message: 'Product with this id doesnt exist' });
+      }
+      await ProductService.delete(id);
+      res.json({ message: 'Product was deleted' });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }
@@ -52,7 +67,13 @@ class ProductController {
     try {
       const { id } = req.params;
       const { name, price, brandId, typeId, description } = req.body;
-      const product = await ProductService.update(
+      const candidate = await ProductService.getOne(id);
+      if (!candidate) {
+        return res
+          .status(400)
+          .json({ message: 'Product with this id doesnt exist' });
+      }
+      await ProductService.update(
         id,
         name,
         price,
@@ -60,8 +81,9 @@ class ProductController {
         typeId,
         description
       );
-      res.json(product);
+      res.json({ message: 'Product was updated' });
     } catch (err) {
+      console.error({ err });
       res.status(500).json(err.message);
     }
   }

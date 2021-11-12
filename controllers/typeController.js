@@ -13,6 +13,11 @@ class TypeController {
     try {
       const { id } = req.params;
       const type = await TypeService.getOne(id);
+      if (!type) {
+        return res
+          .status(400)
+          .json({ message: 'Type with this id doesnt exist' });
+      }
       res.json(type);
     } catch (err) {
       res.status(500).json(err.message);
