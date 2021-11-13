@@ -1,4 +1,4 @@
-import path from 'path';
+import { resolve } from 'path';
 import { v4 } from 'uuid';
 import ProductService from '../services/productService.js';
 
@@ -31,8 +31,9 @@ class ProductController {
     try {
       const { name, price, brandId, typeId, description } = req.body;
       const { img } = req.files;
+      console.log(img);
       const fileName = v4() + '.jpg';
-      img.mv(path.resolve(__dirname, '..', 'static', fileName));
+      img.mv(resolve(resolve(), 'static', fileName));
       const product = await ProductService.create(
         name,
         price,

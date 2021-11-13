@@ -1,6 +1,11 @@
+import { join, resolve } from 'path';
 import supertest from 'supertest';
 import app from '../index.js';
-import { productTestHelper } from './testHelper.js';
+import {
+  productTestHelper,
+  brandTestHelper,
+  typeTestHelper,
+} from './testHelper.js';
 
 const request = supertest(app);
 
@@ -60,6 +65,43 @@ describe('Product test', () => {
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
       expect(response.body.message).toBe('Product with this id doesnt exist');
+    });
+  });
+
+  describe('POST product => /api/product/', () => {
+    let typeId;
+    let brandId;
+    beforeEach(async () => {
+      typeId = await typeTestHelper().addNewTestType();
+      brandId = await brandTestHelper().addNewTestBrand();
+    });
+
+    it('it should create new product', async () => {
+      const response = await request
+        .post('/api/product/create')
+        .field('name', 'test_product')
+        .field('price', 1000)
+        .field('description', 'test description')
+        .field('typeId', typeId)
+        .field('brandId', brandId)
+        .attach('img', join(resolve(), '/' + process.env.IMAGE_NAME));
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.product).toHaveProperty('id');
+      expect(response.body.product).toHaveProperty('name');
+      expect(response.body.product).toHaveProperty('price');
+      expect(response.body.product).toHaveProperty('description');
+      expect(response.body.product).toHaveProperty('rating');
+      expect(response.body.product).toHaveProperty('img');
+      expect(response.body.product).toHaveProperty('typeId');
+      expect(response.body.product).toHaveProperty('brandId');
+      expect(response.body.product.name).toBe('test_product');
+      expect(response.body.product.price).toBe(1000);
+      expect(response.body.product.description).toBe('test description');
+      expect(response.body.product.typeId).toBe(typeId);
+      expect(response.body.product.brandId).toBe(brandId);
+      expect(response.body.message).toBe('Product was created');
     });
   });
 });

@@ -1,3 +1,4 @@
+import { resolve, join } from 'path';
 import { Type, Product, Brand, User } from '../models/models.js';
 import TypeService from '../services/typeService.js';
 import BrandService from '../services/brandService.js';
@@ -42,7 +43,7 @@ const productTestHelper = () => {
         1000,
         brand.id,
         type.id,
-        process.env.IMAGE_PATH,
+        join(resolve(), '/' + process.env.IMAGE_NAME),
         'test description'
       );
       return product.id;
