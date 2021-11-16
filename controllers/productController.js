@@ -31,7 +31,6 @@ class ProductController {
     try {
       const { name, price, brandId, typeId, description } = req.body;
       const { img } = req.files;
-      console.log(img);
       const fileName = v4() + '.jpg';
       img.mv(resolve(resolve(), 'static', fileName));
       const product = await ProductService.create(

@@ -9,9 +9,9 @@ describe('User test', () => {
   afterAll(async () => await userTestHelper().destroyTestUser());
 
   describe('POST user => api/registration', () => {
-    const login = 'test_login';
-    const password = 'test_password';
-    beforeAll(async () => {
+    const login = 'login';
+    const password = 'password';
+    beforeEach(async () => {
       await userTestHelper().createTestUser(login, password);
     });
     it('It should create user and return jwt token', async () => {
@@ -22,6 +22,15 @@ describe('User test', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('token');
+    });
+    it('it should throw error that user with this login is exist', async () => {
+      const response = await request.post('/api/registration').send({
+        login,
+        password,
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('User with this login is exist');
     });
   });
 
@@ -38,6 +47,24 @@ describe('User test', () => {
       });
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('token');
+    });
+    it('it should throw error that login is incorrect', async () => {
+      const response = await request.post('/api/login').send({
+        login: login + '/',
+        password,
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Incorrect login');
+    });
+    it('it should throw error that password is incorrect', async () => {
+      const response = await request.post('/api/login').send({
+        login,
+        password: password + '/',
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Incorrect password');
     });
   });
 });

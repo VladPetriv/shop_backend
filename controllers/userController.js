@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import PasswordUtils from '../utils/passwordUtils.js';
 import generateToken from '../utils/jwtUtils.js';
 import UserService from '../services/userService.js';
 import CartService from '../services/cartService.js';
@@ -9,9 +9,11 @@ class UserController {
       const { login, password } = req.body;
       const candidate = await UserService.getOne(login);
       if (candidate) {
-        res.status(400).json({ message: 'User with this login is exist' });
+        return res
+          .status(400)
+          .json({ message: 'User with this login is exist' });
       }
-      const hashPassword = await bcrypt.hash(password, 5);
+      const hashPassword = PasswordUtils.hash(password);
       const user = await UserService.create(login, hashPassword);
       const cart = await CartService.create(user.id);
       const token = generateToken(user.id, login, cart);
@@ -26,11 +28,15 @@ class UserController {
       const { login, password } = req.body;
       const user = await UserService.getOne(login);
       if (!user) {
-        res.status(400).json({ message: 'Incorrect login' });
+        return res.status(400).json({ message: 'Incorrect login' });
       }
-      const comparePassword = bcrypt.compareSync(password, user.password);
+
+      const comparePassword = PasswordUtils.comparePassword(
+        password,
+        user.password
+      );
       if (!comparePassword) {
-        res.status(400).json('Incorrect password');
+        return res.status(400).json({ message: 'Incorrect password' });
       }
       const token = generateToken(user.id, login);
       res.json({ token });
