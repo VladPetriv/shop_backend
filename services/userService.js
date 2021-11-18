@@ -9,8 +9,8 @@ class UserService {
     const user = await User.findOne({ where: { login } });
     return user;
   }
-  async create(login, password) {
-    const user = await User.create({ login, password });
+  async create(login, email, password) {
+    const user = await User.create({ login, email, password });
     return user;
   }
   async delete(id) {

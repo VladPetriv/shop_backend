@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import PasswordUtils from '../utils/passwordUtils.js';
 import generateToken from '../utils/jwtUtils.js';
 import UserService from '../services/userService.js';
@@ -6,7 +7,11 @@ import CartService from '../services/cartService.js';
 class UserController {
   async registarion(req, res) {
     try {
-      const { login, password } = req.body;
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const { login, email, password } = req.body;
       const candidate = await UserService.getOne(login);
       if (candidate) {
         return res
@@ -14,9 +19,9 @@ class UserController {
           .json({ message: 'User with this login is exist' });
       }
       const hashPassword = PasswordUtils.hash(password);
-      const user = await UserService.create(login, hashPassword);
+      const user = await UserService.create(login, email, hashPassword);
       const cart = await CartService.create(user.id);
-      const token = generateToken(user.id, login, cart);
+      const token = generateToken(user.id, login, email, cart);
       res.json({ token });
     } catch (err) {
       console.error({ err });
@@ -25,7 +30,7 @@ class UserController {
   }
   async login(req, res) {
     try {
-      const { login, password } = req.body;
+      const { login, email, password } = req.body;
       const user = await UserService.getOne(login);
       if (!user) {
         return res.status(400).json({ message: 'Incorrect login' });
@@ -38,7 +43,7 @@ class UserController {
       if (!comparePassword) {
         return res.status(400).json({ message: 'Incorrect password' });
       }
-      const token = generateToken(user.id, login);
+      const token = generateToken(user.id, login, email);
       res.json({ token });
     } catch (err) {
       console.error({ err });

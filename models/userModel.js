@@ -8,6 +8,11 @@ const User = db.define('user', {
     allowNull: false,
     primaryKey: true,
   },
+  email: {
+    type: pkg.DataTypes.STRING,
+    unique: true,
+    allowNull: false,
+  },
   login: {
     type: pkg.DataTypes.STRING,
     unique: true,
