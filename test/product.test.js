@@ -6,6 +6,10 @@ import {
   brandTestHelper,
   typeTestHelper,
 } from './testHelper.js';
+import {
+  NO_PRODUCT_WITH_ID,
+  NOT_VALID_NAME,
+} from '../error_messages/productErrorMessages.js';
 
 const request = supertest(app);
 
@@ -44,7 +48,7 @@ describe('Product test', () => {
       const response = await request.get(`/api/product/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Product with this id doesnt exist');
+      expect(response.body.message).toBe(NO_PRODUCT_WITH_ID);
     });
   });
 
@@ -64,7 +68,7 @@ describe('Product test', () => {
       const response = await request.delete(`/api/product/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Product with this id doesnt exist');
+      expect(response.body.message).toBe(NO_PRODUCT_WITH_ID);
     });
   });
 
@@ -102,6 +106,19 @@ describe('Product test', () => {
       expect(response.body.product.typeId).toBe(typeId);
       expect(response.body.product.brandId).toBe(brandId);
       expect(response.body.message).toBe('Product was created');
+    });
+    it('it should throw error that name is not valid', async () => {
+      const response = await request
+        .post('/api/product/create')
+        .field('name', 't')
+        .field('price', 1000)
+        .field('description', 'test description')
+        .field('typeId', typeId)
+        .field('brandId', brandId)
+        .attach('img', join(resolve(), '/' + process.env.IMAGE_NAME));
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('errors');
+      expect(response.body.errors[0].msg).toBe(NOT_VALID_NAME);
     });
   });
 });

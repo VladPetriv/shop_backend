@@ -1,6 +1,8 @@
 import { resolve } from 'path';
 import { v4 } from 'uuid';
+import { validationResult } from 'express-validator';
 import ProductService from '../services/productService.js';
+import { NO_PRODUCT_WITH_ID } from '../error_messages/productErrorMessages.js';
 
 class ProductController {
   async getAllProduct(req, res) {
@@ -17,9 +19,7 @@ class ProductController {
       const { id } = req.params;
       const product = await ProductService.getOne(id);
       if (!product) {
-        return res
-          .status(400)
-          .json({ message: 'Product with this id doesnt exist' });
+        return res.status(400).json({ message: NO_PRODUCT_WITH_ID });
       }
       return res.json(product);
     } catch (err) {
@@ -29,6 +29,12 @@ class ProductController {
   }
   async createProduct(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
       const { name, price, brandId, typeId, description } = req.body;
       const { img } = req.files;
       const fileName = v4() + '.jpg';
@@ -52,9 +58,7 @@ class ProductController {
       const { id } = req.params;
       const candidate = await ProductService.getOne(id);
       if (!candidate) {
-        return res
-          .status(400)
-          .json({ message: 'Product with this id doesnt exist' });
+        return res.status(400).json({ message: NO_PRODUCT_WITH_ID });
       }
       await ProductService.delete(id);
       res.json({ message: 'Product was deleted' });
@@ -69,9 +73,7 @@ class ProductController {
       const { name, price, brandId, typeId, description } = req.body;
       const candidate = await ProductService.getOne(id);
       if (!candidate) {
-        return res
-          .status(400)
-          .json({ message: 'Product with this id doesnt exist' });
+        return res.status(400).json({ message: NO_PRODUCT_WITH_ID });
       }
       await ProductService.update(
         id,
