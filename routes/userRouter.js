@@ -2,16 +2,19 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import checkUserAuthorization from '../middlewares/chechUserMiddleware.js';
 import UserController from '../controllers/userController.js';
+import {
+  NOT_VALID_EMAIL,
+  NOT_VALID_LOGIN,
+  NOT_VALID_PASSWORD,
+} from '../error_messages/UserErrorMessages.js';
 
 const router = Router();
 
 router.post(
   '/registration',
-  body('login')
-    .isLength({ min: 4, max: 10 })
-    .withMessage('Must be  4+ and less then 10 symbols'),
-  body('email').isEmail().withMessage('Please use valid email'),
-  body('password').isLength({ min: 4 }).withMessage('Must be 4+ symbols'),
+  body('login').isLength({ min: 4, max: 10 }).withMessage(NOT_VALID_LOGIN),
+  body('email').isEmail().withMessage(NOT_VALID_EMAIL),
+  body('password').isLength({ min: 4 }).withMessage(NOT_VALID_PASSWORD),
   UserController.registarion
 );
 router.post('/login', UserController.login);

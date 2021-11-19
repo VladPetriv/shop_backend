@@ -1,6 +1,14 @@
 import supertest from 'supertest';
 import app from '../index.js';
 import { userTestHelper } from './testHelper.js';
+import {
+  USE_ANOTHER_LOGIN,
+  INCORRECT_LOGIN,
+  INCORRECT_PASSWORD,
+  NOT_VALID_LOGIN,
+  NOT_VALID_EMAIL,
+  NOT_VALID_PASSWORD,
+} from '../error_messages/UserErrorMessages.js';
 
 const request = supertest(app);
 
@@ -33,9 +41,9 @@ describe('User test', () => {
       });
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('User with this login is exist');
+      expect(response.body.message).toBe(USE_ANOTHER_LOGIN);
     });
-    it('it should throw error that email is valid', async () => {
+    it('it should throw error that email is not valid', async () => {
       const response = await request.post('/api/registration').send({
         login: 'test login',
         email: 'bademail',
@@ -43,9 +51,9 @@ describe('User test', () => {
       });
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('errors');
-      expect(response.body.errors[0].msg).toBe('Please use valid email');
+      expect(response.body.errors[0].msg).toBe(NOT_VALID_EMAIL);
     });
-    it('it should throw error that login doesnt valid', async () => {
+    it('it should throw error that login is not valid', async () => {
       const response = await request.post('/api/registration').send({
         login: 'lg',
         email: 'test@test.com',
@@ -53,11 +61,9 @@ describe('User test', () => {
       });
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('errors');
-      expect(response.body.errors[0].msg).toBe(
-        'Must be  4+ and less then 10 symbols'
-      );
+      expect(response.body.errors[0].msg).toBe(NOT_VALID_LOGIN);
     });
-    it('it should throw error that password doesnt valid', async () => {
+    it('it should throw error that password is not valid', async () => {
       const response = await request.post('/api/registration').send({
         login: 'login',
         email: 'test@test.com',
@@ -65,7 +71,7 @@ describe('User test', () => {
       });
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('errors');
-      expect(response.body.errors[0].msg).toBe('Must be 4+ symbols');
+      expect(response.body.errors[0].msg).toBe(NOT_VALID_PASSWORD);
     });
   });
 
@@ -93,7 +99,7 @@ describe('User test', () => {
       });
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Incorrect login');
+      expect(response.body.message).toBe(INCORRECT_LOGIN);
     });
     it('it should throw error that password is incorrect', async () => {
       const response = await request.post('/api/login').send({
@@ -103,7 +109,7 @@ describe('User test', () => {
       });
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Incorrect password');
+      expect(response.body.message).toBe(INCORRECT_PASSWORD);
     });
   });
 });
