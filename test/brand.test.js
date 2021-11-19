@@ -1,6 +1,10 @@
 import supertest from 'supertest';
 import app from '../index.js';
 import { brandTestHelper } from './testHelper.js';
+import {
+  NOT_VALID_NAME,
+  NO_BRAND_WITH_ID,
+} from '../error_messages/brandErrorMessages.js';
 
 const request = supertest(app);
 
@@ -34,7 +38,7 @@ describe('Brand test', () => {
       const response = await request.get(`/api/brand/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Brand with this id doesnt exist');
+      expect(response.body.message).toBe(NO_BRAND_WITH_ID);
     });
   });
   describe('POST brand => api/brand/create', () => {
@@ -49,6 +53,15 @@ describe('Brand test', () => {
       expect(response.body.brand).toHaveProperty('id');
       expect(response.body.brand).toHaveProperty('name');
       expect(response.body.brand.name).toBe(name);
+      expect(response.body.message).toBe('Brand was created');
+    });
+    it('it should throw error that name is not valid', async () => {
+      const response = await request.post('/api/brand/create').send({
+        name: 't',
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('errors');
+      expect(response.body.errors[0].msg).toBe(NOT_VALID_NAME);
     });
   });
 
@@ -67,7 +80,7 @@ describe('Brand test', () => {
       const response = await request.delete(`/api/brand/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Brand with this id doesnt exist');
+      expect(response.body.message).toBe(NO_BRAND_WITH_ID);
     });
   });
 
@@ -86,7 +99,7 @@ describe('Brand test', () => {
       const response = await request.put(`/api/brand/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Brand with this id doesnt exist');
+      expect(response.body.message).toBe(NO_BRAND_WITH_ID);
     });
   });
 });

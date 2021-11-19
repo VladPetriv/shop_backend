@@ -1,4 +1,6 @@
+import { validationResult } from 'express-validator';
 import BrandService from '../services/brandService.js';
+import { NO_BRAND_WITH_ID } from '../error_messages/brandErrorMessages.js';
 
 class BrandController {
   async getAllBrands(req, res) {
@@ -15,9 +17,7 @@ class BrandController {
       const { id } = req.params;
       const brand = await BrandService.getOne(id);
       if (!brand) {
-        return res
-          .status(400)
-          .json({ message: 'Brand with this id doesnt exist' });
+        return res.status(400).json({ message: NO_BRAND_WITH_ID });
       }
       res.json(brand);
     } catch (err) {
@@ -26,6 +26,10 @@ class BrandController {
   }
   async createBrand(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
       const { name } = req.body;
       const brand = await BrandService.create(name);
       res.json({ brand, message: 'Brand was created' });
@@ -39,9 +43,7 @@ class BrandController {
       const { id } = req.params;
       const candidate = await BrandService.getOne(id);
       if (!candidate) {
-        return res
-          .status(400)
-          .json({ message: 'Brand with this id doesnt exist' });
+        return res.status(400).json({ message: NO_BRAND_WITH_ID });
       }
       await BrandService.delete(id);
       res.json({ message: 'Brand was deleted' });
@@ -55,9 +57,7 @@ class BrandController {
       const { name } = req.body;
       const candidate = await BrandService.getOne(id);
       if (!candidate) {
-        return res
-          .status(400)
-          .json({ message: 'Brand with this id doesnt exist' });
+        return res.status(400).json({ message: NO_BRAND_WITH_ID });
       }
       await BrandService.update(id, name);
       res.json({ message: 'Brand was updated' });

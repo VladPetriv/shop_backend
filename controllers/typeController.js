@@ -1,4 +1,6 @@
+import { validationResult } from 'express-validator';
 import TypeService from '../services/typeService.js';
+import { NO_TYPE_WITH_ID } from '../error_messages/typeErrorMessages.js';
 
 class TypeController {
   async getAllTypes(req, res) {
@@ -14,9 +16,7 @@ class TypeController {
       const { id } = req.params;
       const type = await TypeService.getOne(id);
       if (!type) {
-        return res
-          .status(400)
-          .json({ message: 'Type with this id doesnt exist' });
+        return res.status(400).json({ message: NO_TYPE_WITH_ID });
       }
       res.json(type);
     } catch (err) {
@@ -25,6 +25,12 @@ class TypeController {
   }
   async createType(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
       const { name } = req.body;
       const type = await TypeService.create(name);
       res.json({ type, message: 'Type was created' });
@@ -38,9 +44,7 @@ class TypeController {
       const { id } = req.params;
       const candidate = await TypeService.getOne(id);
       if (!candidate) {
-        return res
-          .status(400)
-          .json({ message: 'Type with this id doesnt exist' });
+        return res.status(400).json({ message: NO_TYPE_WITH_ID });
       }
       await TypeService.delete(id);
       res.json({ message: 'Type was deleted' });
@@ -55,9 +59,7 @@ class TypeController {
       const { name } = req.body;
       const candidate = await TypeService.getOne(id);
       if (!candidate) {
-        return res
-          .status(400)
-          .json({ message: 'Type with this id doesnt exist' });
+        return res.status(400).json({ message: NO_TYPE_WITH_ID });
       }
       await TypeService.update(id, name);
       res.json({ message: 'Type was updated' });

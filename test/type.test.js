@@ -1,6 +1,10 @@
 import supertest from 'supertest';
 import app from '../index.js';
 import { typeTestHelper } from './testHelper.js';
+import {
+  NOT_VALID_NAME,
+  NO_TYPE_WITH_ID,
+} from '../error_messages/typeErrorMessages.js';
 
 const request = supertest(app);
 
@@ -32,7 +36,7 @@ describe('Type test', () => {
       const response = await request.get(`/api/type/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Type with this id doesnt exist');
+      expect(response.body.message).toBe(NO_TYPE_WITH_ID);
     });
   });
   describe('POST type => /api/type/create', () => {
@@ -45,6 +49,14 @@ describe('Type test', () => {
       expect(response.body).toHaveProperty('message');
       expect(response.body.type.name).toBe('test');
       expect(response.body.message).toBe('Type was created');
+    });
+    it('it should throw error that name is not valid', async () => {
+      const response = await request.post('/api/type/create').send({
+        name: 't',
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('errors');
+      expect(response.body.errors[0].msg).toBe(NOT_VALID_NAME);
     });
   });
 
@@ -64,7 +76,7 @@ describe('Type test', () => {
       const response = await request.delete(`/api/type/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Type with this id doesnt exist');
+      expect(response.body.message).toBe(NO_TYPE_WITH_ID);
     });
   });
 
@@ -73,7 +85,7 @@ describe('Type test', () => {
     beforeEach(async () => {
       id = await typeTestHelper().addNewTestType();
     });
-    it('it should update type and return 200 as status code', async () => {
+    it('it should update type', async () => {
       const response = await request
         .put(`/api/type/items/${id}`)
         .send({ name: 'updated_type' });
@@ -85,7 +97,7 @@ describe('Type test', () => {
       const response = await request.put(`/api/type/items/${id + 1}`);
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Type with this id doesnt exist');
+      expect(response.body.message).toBe(NO_TYPE_WITH_ID);
     });
   });
 });
