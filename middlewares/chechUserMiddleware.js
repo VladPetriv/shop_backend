@@ -16,4 +16,5 @@ const checkUserAuthorization = (req, res, next) => {
     return res.status(401).json('User is not logined');
   }
 };
+
 export default checkUserAuthorization;

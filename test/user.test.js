@@ -8,7 +8,7 @@ import {
   NOT_VALID_LOGIN,
   NOT_VALID_EMAIL,
   NOT_VALID_PASSWORD,
-} from '../error_messages/UserErrorMessages.js';
+} from '../error_messages/userErrorMessages.js';
 
 const request = supertest(app);
 

@@ -1,4 +1,5 @@
 import CartProductService from '../services/cartProductService.js';
+import { NO_CART_PRODUCT_WITH_ID } from '../error_messages/cartProductErrorMessages.js';
 
 class CartProductController {
   async getAllCartProduct(req, res) {
@@ -38,9 +39,7 @@ class CartProductController {
       const { id, cartId } = req.params;
       const candidate = await CartProductService.getOne(id, cartId);
       if (!candidate) {
-        return res
-          .status(400)
-          .json({ message: 'Cart product with this id doesnt exist' });
+        return res.status(400).json({ message: NO_CART_PRODUCT_WITH_ID });
       }
       await CartProductService.delete(id, cartId);
       res.json({ message: 'Cart product was deleted' });
@@ -55,9 +54,7 @@ class CartProductController {
       const { productId } = req.body;
       const candidate = await CartProductService.getOne(id, cartId);
       if (!candidate) {
-        res
-          .status(400)
-          .json({ message: 'Cart product with this id doesnt exist' });
+        res.status(400).json({ message: NO_CART_PRODUCT_WITH_ID });
       }
       const cartProduct = await CartProductService.update(
         id,

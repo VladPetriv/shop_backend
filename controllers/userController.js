@@ -7,7 +7,7 @@ import {
   USE_ANOTHER_LOGIN,
   INCORRECT_LOGIN,
   INCORRECT_PASSWORD,
-} from '../error_messages/UserErrorMessages.js';
+} from '../error_messages/userErrorMessages.js';
 
 class UserController {
   async registarion(req, res) {
