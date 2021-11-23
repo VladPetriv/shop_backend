@@ -7,6 +7,7 @@ import {
   USE_ANOTHER_LOGIN,
   INCORRECT_LOGIN,
   INCORRECT_PASSWORD,
+  USER_NOT_EXIST,
 } from '../error_messages/userErrorMessages.js';
 
 class UserController {
@@ -47,6 +48,34 @@ class UserController {
         return res.status(400).json({ message: INCORRECT_PASSWORD });
       }
       const token = generateToken(user.id, login, email);
+      res.json({ token });
+    } catch (err) {
+      console.error({ err });
+      res.status(500).json(err.message);
+    }
+  }
+  async updateUser(req, res) {
+    try {
+      const { login, email, password, newPassword } = req.body;
+      const user = await UserService.getOne(login);
+      if (!user) {
+        return res.status(400).json({ message: USER_NOT_EXIST });
+      }
+      const comparePassword = PasswordUtils.comparePassword(
+        password,
+        user.password
+      );
+      if (!comparePassword) {
+        return res.status(400).json({ message: INCORRECT_PASSWORD });
+      }
+      const hashPassword = PasswordUtils.hash(newPassword);
+      const updatedUser = await UserService.update(
+        user.id,
+        login,
+        email,
+        hashPassword
+      );
+      const token = generateToken(updatedUser.id, login, email);
       res.json({ token });
     } catch (err) {
       console.error({ err });

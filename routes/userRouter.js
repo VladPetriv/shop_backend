@@ -18,6 +18,7 @@ router.post(
   UserController.registarion
 );
 router.post('/login', UserController.login);
+router.post('/updateUser', UserController.updateUser);
 router.get('/auth', checkUserAuthorization, UserController.check);
 
 export default router;

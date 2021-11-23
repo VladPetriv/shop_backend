@@ -21,7 +21,7 @@ describe('User test', () => {
     const email = 'test@test.com';
     const password = 'password';
     beforeEach(async () => {
-      await userTestHelper().createTestUser(login, password);
+      await userTestHelper().createTestUser(login, email, password);
     });
     it('It should create user and return jwt token', async () => {
       const response = await request.post('/api/registration').send({
@@ -110,6 +110,22 @@ describe('User test', () => {
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('message');
       expect(response.body.message).toBe(INCORRECT_PASSWORD);
+    });
+  });
+  describe('POST user => /api/updateUser', () => {
+    const login = 'test_user';
+    const email = 'test@test.com';
+    const password = 'test_password';
+    const newPassword = 'new_test_password';
+    beforeEach(async () => {
+      await request.post('/api/registration').send({ login, email, password });
+    });
+    it('it should update user password and return jwt token', async () => {
+      const response = await request
+        .post('/api/updateUser')
+        .send({ login, email, password, newPassword });
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('token');
     });
   });
 });

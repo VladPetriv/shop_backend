@@ -17,8 +17,11 @@ class UserService {
     const user = await User.destroy({ where: { id } });
     return user;
   }
-  async update(id, login, password) {
-    const user = await User.update({ login, password }, { where: { id } });
+  async update(id, login, email, password) {
+    const user = await User.update(
+      { login, email, password },
+      { where: { id } }
+    );
     return user;
   }
 }

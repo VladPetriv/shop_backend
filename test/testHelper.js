@@ -56,8 +56,8 @@ const userTestHelper = () => {
     async destroyTestUser() {
       await User.destroy({ where: {} });
     },
-    async createTestUser(login, password) {
-      const user = await UserService.create(login, password);
+    async createTestUser(login, email, password) {
+      const user = await UserService.create(login, email, password);
       await CartService.create(user.id);
     },
   };
