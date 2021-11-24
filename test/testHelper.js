@@ -1,10 +1,26 @@
 import { resolve, join } from 'path';
-import { Type, Product, Brand, User } from '../models/models.js';
+import { Type, Product, Brand, User, Cart } from '../models/models.js';
 import TypeService from '../services/typeService.js';
 import BrandService from '../services/brandService.js';
 import ProductService from '../services/productService.js';
 import UserService from '../services/userService.js';
 import CartService from '../services/cartService.js';
+import CartProductService from '../services/cartProductService.js';
+
+const cartProductTestHelper = () => {
+  return {
+    async destroyAllModels() {
+      await Brand.destroy({ where: {} });
+      await Type.destroy({ where: {} });
+      await Product.destroy({ where: {} });
+      await User.destroy({ where: {} });
+      await Cart.destroy({ where: {} });
+    },
+    async createTestCartProduct(cartId, productId) {
+      await CartProductService.create(cartId, productId);
+    },
+  };
+};
 
 const brandTestHelper = () => {
   return {
@@ -58,9 +74,16 @@ const userTestHelper = () => {
     },
     async createTestUser(login, email, password) {
       const user = await UserService.create(login, email, password);
-      await CartService.create(user.id);
+      const cart = await CartService.create(user.id);
+      return cart.id;
     },
   };
 };
 
-export { brandTestHelper, typeTestHelper, productTestHelper, userTestHelper };
+export {
+  brandTestHelper,
+  typeTestHelper,
+  productTestHelper,
+  userTestHelper,
+  cartProductTestHelper,
+};

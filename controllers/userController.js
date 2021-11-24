@@ -24,7 +24,7 @@ class UserController {
       const hashPassword = PasswordUtils.hash(password);
       const user = await UserService.create(login, email, hashPassword);
       const cart = await CartService.create(user.id);
-      const token = generateToken(user.id, login, email, cart);
+      const token = generateToken(user.id, login, email, cart.id);
       res.json({ token });
     } catch (err) {
       console.error({ err });
