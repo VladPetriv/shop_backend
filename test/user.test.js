@@ -127,5 +127,27 @@ describe('User test', () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('token');
     });
+    it('it should throw error that password is incorrect', async () => {
+      const response = await request.post('/api/updateUser').send({
+        login,
+        email,
+        pass: password + '/',
+        newPassword,
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe(INCORRECT_PASSWORD);
+    });
+    it('it should throw error that user is not exist', async () => {
+      const response = await request.post('/api/updateUser').send({
+        login: login + '/',
+        email,
+        password,
+        newPassword,
+      });
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe(INCORRECT_LOGIN);
+    });
   });
 });

@@ -7,7 +7,6 @@ import {
   USE_ANOTHER_LOGIN,
   INCORRECT_LOGIN,
   INCORRECT_PASSWORD,
-  USER_NOT_EXIST,
 } from '../error_messages/userErrorMessages.js';
 
 class UserController {
@@ -59,7 +58,7 @@ class UserController {
       const { login, email, password, newPassword } = req.body;
       const user = await UserService.getOne(login);
       if (!user) {
-        return res.status(400).json({ message: USER_NOT_EXIST });
+        return res.status(400).json({ message: INCORRECT_LOGIN });
       }
       const comparePassword = PasswordUtils.comparePassword(
         password,
