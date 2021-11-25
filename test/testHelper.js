@@ -17,7 +17,8 @@ const cartProductTestHelper = () => {
       await Cart.destroy({ where: {} });
     },
     async createTestCartProduct(cartId, productId) {
-      await CartProductService.create(cartId, productId);
+      const cartProduct = await CartProductService.create(cartId, productId);
+      return cartProduct.id;
     },
   };
 };

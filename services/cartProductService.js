@@ -29,13 +29,6 @@ class CartProductService {
     const cartProduct = await CartProduct.destroy({ where: { cartId, id } });
     return cartProduct;
   }
-  async update(id, cartId, productId) {
-    const cartProduct = await CartProduct.update(
-      { cartId, productId },
-      { where: { id } }
-    );
-    return cartProduct;
-  }
 }
 
 export default new CartProductService();

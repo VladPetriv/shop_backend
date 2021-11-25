@@ -32,6 +32,9 @@ class CartProductController {
         });
       }
       const cartProduct = await CartProductService.getOne(id, cartId);
+      if (!cartProduct) {
+        return res.status(400).json({ message: NO_CART_PRODUCT_WITH_ID });
+      }
       res.json({ cartProduct });
     } catch (err) {
       console.log({ err });
@@ -70,27 +73,6 @@ class CartProductController {
       }
       await CartProductService.delete(id, cartId);
       res.json({ message: 'Cart product was deleted' });
-    } catch (err) {
-      console.error({ err });
-      res.status(500).json(err.message);
-    }
-  }
-  async updateCartProduct(req, res) {
-    try {
-      const { id, cartId } = req.params;
-      const { productId } = req.body;
-      const candidateCart = await CartService.getOne(cartId);
-      if (!candidateCart) {
-        return res.status(400).json({
-          message: NO_CART_WITH_ID,
-        });
-      }
-      const candidate = await CartProductService.getOne(id, cartId);
-      if (!candidate) {
-        res.status(400).json({ message: NO_CART_PRODUCT_WITH_ID });
-      }
-      await CartProductService.update(id, cartId, productId);
-      res.json({ message: 'Cart product was updated' });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
