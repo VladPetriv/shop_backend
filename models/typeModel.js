@@ -9,7 +9,6 @@ const Type = db.define('type', {
   },
   name: {
     type: pkg.DataTypes.STRING,
-    unique: true,
     allowNull: false,
   },
 });

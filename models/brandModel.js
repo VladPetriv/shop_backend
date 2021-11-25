@@ -9,7 +9,6 @@ const Brand = db.define('brand', {
   },
   name: {
     type: pkg.DataTypes.STRING,
-    unique: true,
     allowNull: false,
   },
 });

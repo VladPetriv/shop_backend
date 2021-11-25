@@ -10,7 +10,7 @@ const Product = db.define('product', {
   name: {
     type: pkg.DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    
   },
   price: {
     type: pkg.DataTypes.INTEGER,
