@@ -1,10 +1,10 @@
 # shop_backend
 
 Example of backend side for online store
+
 ## Technology
-NodeJS,Postgresql,Express,JWT,Bcrypt,Sequelize,Jest,Supertest
 
-
+NodeJS,Postgresql,Express,JWT,Sequelize,Jest,Supertest
 
 ## Installation
 
@@ -15,17 +15,26 @@ NodeJS,Postgresql,Express,JWT,Bcrypt,Sequelize,Jest,Supertest
 $ git clone https://github.com/VladPetriv/shop_backend
 $ cd shop_backend
 $ npm install
-#After this you need to create .env file with fields like:[PORT,DB_NAME,DB_USER,DB_PASSWORD,DB_HOST,DB_PORT,SECRET_KEY,IMAGE_PATH]
+#After this you need to create .env file with fields:[
+PORT,- port for application
+DB_NAME - database name
+DB_USER - database user
+DB_PASSWORD - database password
+DB_HOST - database host
+DB_PORT - database port
+SECRET_KEY - secrete key for json web token
+IMAGE_PATH - path to image for test suite
+]
+
 ```
-
-
 
 ## API Endpoints
+
 This is a RESTful API which exposes basic CRUD methods. All communication
-with the server (requests and responses) must be in JSON.
+
 ```
 
-User 
+User
 POST /api/registration/                       Register on site
 POST /api/login/                              Login to site
 GET  /api/auth/                               Check user status
@@ -53,34 +62,34 @@ POST /api/product/create/                     Create a new product
 GET  /api/productct/items/[product_id]        Get a specific product
 PUT  /api/product/items/[product_id]          Update a product
 DELETE /api/product/items/[product_id]        Delete a product
- 
+
 
 Cart  Product
 GET  /api/cart_product/cart_id/items/         Get a list of all cart products
 POST /api/cart_product/cart_id/create         Create a new cart product
 GET  /api/cart_product/cart_id/items/[cart_product_id]   Get a specific cart product
-PUT  /api/cart_product/cart_id/items/[cart_product_id]          Update a cart product
 DELETE /api/cart_product/cart_id/items/[cart_product_id]        Delete a cart product
- 
+
 
 ```
 
 ## Usage
+
 Starting the server:
+
 ```bash
 # To start the server make sure you're in the 'shop_backend'
 # root directory and run for development:
-$ npm run dev 
+$ npm run dev
 # root directory and run for production:
-$ npm run start 
+$ npm run start
 
 ```
 
 ## Running the test suite
+
 ```bash
 # Make sure you're in the shop_backend root directory and run:
 $ npm install --dev
 $ npm test
 ```
-
-
