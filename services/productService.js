@@ -25,7 +25,7 @@ class ProductService {
     return product;
   }
   async update(id, name, price, brandId, typeId, description) {
-    const product = await Prooduct.update(
+    const product = await Product.update(
       {
         name,
         price,

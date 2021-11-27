@@ -121,4 +121,29 @@ describe('Product test', () => {
       expect(response.body.errors[0].msg).toBe(NOT_VALID_NAME);
     });
   });
+  describe('PUT product => /api/product/items/:productId', () => {
+    let productId;
+    beforeEach(async () => {
+      productId = await productTestHelper().addNewTestProduct();
+    });
+    it('it should update product and return message', async () => {
+      const response = await request
+        .put(`/api/product/items/${productId}`)
+        .send({
+          name: 'test1',
+          price: 1500,
+          description: 'test description 1',
+        });
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('Product was updated');
+    });
+    it('it should throw error that product is not exist', async () => {
+      const response = await request.put(`/api/product/items/${productId + 1}`);
+
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe(NO_PRODUCT_WITH_ID);
+    });
+  });
 });
