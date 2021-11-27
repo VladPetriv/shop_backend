@@ -1,5 +1,5 @@
 import { resolve, join } from 'path';
-import { Type, Product, Brand, User, Cart } from '../models/models.js';
+import { Type, Rating, Product, Brand, User, Cart } from '../models/models.js';
 import TypeService from '../services/typeService.js';
 import BrandService from '../services/brandService.js';
 import ProductService from '../services/productService.js';
@@ -7,15 +7,17 @@ import UserService from '../services/userService.js';
 import CartService from '../services/cartService.js';
 import CartProductService from '../services/cartProductService.js';
 
+const destroyAllModels = async () => {
+  await Brand.destroy({ where: {} });
+  await Type.destroy({ where: {} });
+  await Product.destroy({ where: {} });
+  await User.destroy({ where: {} });
+  await Cart.destroy({ where: {} });
+  await Rating.destroy({ where: {} });
+};
+
 const cartProductTestHelper = () => {
   return {
-    async destroyAllModels() {
-      await Brand.destroy({ where: {} });
-      await Type.destroy({ where: {} });
-      await Product.destroy({ where: {} });
-      await User.destroy({ where: {} });
-      await Cart.destroy({ where: {} });
-    },
     async createTestCartProduct(cartId, productId) {
       const cartProduct = await CartProductService.create(cartId, productId);
       return cartProduct.id;
@@ -47,11 +49,6 @@ const typeTestHelper = () => {
 };
 const productTestHelper = () => {
   return {
-    async destroyAllModels() {
-      await Type.destroy({ where: {} });
-      await Brand.destroy({ where: {} });
-      await Product.destroy({ where: {} });
-    },
     async addNewTestProduct() {
       const brand = await BrandService.create('test');
       const type = await TypeService.create('test');
@@ -87,4 +84,5 @@ export {
   productTestHelper,
   userTestHelper,
   cartProductTestHelper,
+  destroyAllModels,
 };

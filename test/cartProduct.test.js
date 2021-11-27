@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import app from '../index.js';
 import {
+  destroyAllModels,
   cartProductTestHelper,
   userTestHelper,
   productTestHelper,
@@ -14,10 +15,10 @@ const request = supertest(app);
 
 describe('Cart product test', () => {
   beforeAll(async () => {
-    await cartProductTestHelper().destroyAllModels();
+    await destroyAllModels();
   });
   afterAll(async () => {
-    await cartProductTestHelper().destroyAllModels();
+    await destroyAllModels();
   });
   describe('GET cart products => /api/cart_product/:cartId/items', () => {
     const login = 'testlogin';

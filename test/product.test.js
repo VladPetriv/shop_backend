@@ -2,6 +2,7 @@ import { join, resolve } from 'path';
 import supertest from 'supertest';
 import app from '../index.js';
 import {
+  destroyAllModels,
   productTestHelper,
   brandTestHelper,
   typeTestHelper,
@@ -14,8 +15,8 @@ import {
 const request = supertest(app);
 
 describe('Product test', () => {
-  beforeEach(async () => await productTestHelper().destroyAllModels());
-  afterAll(async () => await productTestHelper().destroyAllModels());
+  beforeEach(async () => await destroyAllModels());
+  afterAll(async () => await destroyAllModels());
 
   describe('GET products => /api/product/items', () => {
     it('It should get products', async () => {
