@@ -10,6 +10,10 @@ const Rating = db.define('rating', {
   value: {
     type: pkg.DataTypes.INTEGER,
     allowNull: false,
+    validate: {
+      min: 0,
+      max: 5,
+    },
   },
 });
 
