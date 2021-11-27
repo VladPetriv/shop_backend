@@ -6,7 +6,7 @@ class UserService {
     return users;
   }
   async getOne(login) {
-    const user = await User.findOne({ where: { login } });
+    const user = await User.findOne({ where: { login }, include: ['cart'] });
     return user;
   }
   async create(login, email, password) {

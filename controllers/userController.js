@@ -46,7 +46,7 @@ class UserController {
       if (!comparePassword) {
         return res.status(400).json({ message: INCORRECT_PASSWORD });
       }
-      const token = generateToken(user.id, login, email);
+      const token = generateToken(user.id, login, email, user['cart.id']);
       res.json({ token });
     } catch (err) {
       console.error({ err });
