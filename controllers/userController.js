@@ -16,15 +16,15 @@ class UserController {
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      const { login, email, password } = req.body;
+      const { login, email, password, role } = req.body;
       const candidate = await UserService.getOne(login);
       if (candidate) {
         return res.status(400).json({ message: USE_ANOTHER_LOGIN });
       }
       const hashPassword = PasswordUtils.hash(password);
-      const user = await UserService.create(login, email, hashPassword);
+      const user = await UserService.create(login, email, hashPassword, role);
       const cart = await CartService.create(user.id);
-      const token = generateToken(user.id, login, email, cart.id);
+      const token = generateToken(user.id, login, email, user.role, cart.id);
       res.json({ token });
     } catch (err) {
       console.error({ err });
@@ -46,7 +46,13 @@ class UserController {
       if (!comparePassword) {
         return res.status(400).json({ message: INCORRECT_PASSWORD });
       }
-      const token = generateToken(user.id, login, email, user['cart.id']);
+      const token = generateToken(
+        user.id,
+        login,
+        email,
+        user.role,
+        user['cart.id']
+      );
       res.json({ token });
     } catch (err) {
       console.error({ err });

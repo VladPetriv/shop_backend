@@ -6,11 +6,19 @@ class UserService {
     return users;
   }
   async getOne(login) {
-    const user = await User.findOne({ where: { login }, include: ['cart'] });
+    const user = await User.findOne({
+      where: { login },
+      include: ['cart'],
+    });
     return user;
   }
-  async create(login, email, password) {
-    const user = await User.create({ login, email, password });
+  async create(login, email, password, role) {
+    const user = await User.create({
+      login,
+      email,
+      password,
+      role,
+    });
     return user;
   }
   async delete(id) {
