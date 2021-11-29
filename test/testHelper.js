@@ -6,6 +6,7 @@ import ProductService from '../services/productService.js';
 import UserService from '../services/userService.js';
 import CartService from '../services/cartService.js';
 import CartProductService from '../services/cartProductService.js';
+import PasswordUtils from '../utils/passwordUtils.js';
 
 const destroyAllModels = async () => {
   await Brand.destroy({ where: {} });
@@ -70,8 +71,9 @@ const userTestHelper = () => {
     async destroyTestUser() {
       await User.destroy({ where: {} });
     },
-    async createTestUser(login, email, password) {
-      const user = await UserService.create(login, email, password);
+    async createTestUser(login, email, password, role) {
+      const hashedPassword = PasswordUtils.hash(password);
+      const user = await UserService.create(login, email, hashedPassword, role);
       const cart = await CartService.create(user.id);
       return cart.id;
     },
