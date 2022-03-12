@@ -14,14 +14,15 @@ NodeJS,Postgresql,Express,JWT,Sequelize,Jest,Supertest
 # Clone the repo and install dependencies
 $ git clone https://github.com/VladPetriv/shop_backend
 $ cd shop_backend
-$ npm install
+$ docker-compose build
+$ docker-compose up
 #After this you need to create .env file with fields:[
 PORT,- port for application
-DB_NAME - database name
-DB_USER - database user
-DB_PASSWORD - database password
-DB_HOST - database host
-DB_PORT - database port
+POSTGRES_NAME - database name
+POSTGRES_USER - database user
+POSTGRES_PASSWORD - database password
+POSTGRES_HOST - database host
+POSTGRES_PORT - database port
 SECRET_KEY - secrete key for json web token
 IMAGE_PATH - path to image for test suite
 ]
