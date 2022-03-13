@@ -16,18 +16,20 @@ $ git clone https://github.com/VladPetriv/shop_backend
 $ cd shop_backend
 $ docker-compose build
 $ docker-compose up
-#After this you need to create .env file with fields:[
-PORT,- port for application
-POSTGRES_NAME - database name
-POSTGRES_USER - database user
-POSTGRES_PASSWORD - database password
-POSTGRES_HOST - database host
-POSTGRES_PORT - database port
-SECRET_KEY - secrete key for json web token
-IMAGE_PATH - path to image for test suite
-]
+#Before this you need to create .env file with fields:[
+#PORT,- port for application
+#POSTGRES_NAME - database name
+#POSTGRES_USER - database user
+#POSTGRES_PASSWORD - database password
+#POSTGRES_HOST - database host
+#POSTGRES_PORT - database port
+#SECRET_KEY - secrete key for json web token
+#IMAGE_PATH - path to image for test suite
+#]
 
 ```
+
+
 
 ## API Endpoints
 
@@ -92,6 +94,13 @@ $ npm run dev
 # root directory and run for production:
 $ npm run start
 
+```
+Start server with docker:
+
+```bash
+#Make sure that docker installed on your system
+$ docker-compose build
+$ docker-compose up 
 ```
 
 ## Running the test suite
