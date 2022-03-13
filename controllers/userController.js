@@ -1,16 +1,15 @@
 import { validationResult } from 'express-validator';
-import PasswordUtils from '../utils/passwordUtils.js';
-import generateToken from '../utils/jwtUtils.js';
-import UserService from '../services/userService.js';
-import CartService from '../services/cartService.js';
 import {
-  USE_ANOTHER_LOGIN,
   INCORRECT_LOGIN,
-  INCORRECT_PASSWORD,
+  INCORRECT_PASSWORD, USE_ANOTHER_LOGIN
 } from '../error_messages/userErrorMessages.js';
+import CartService from '../services/cartService.js';
+import UserService from '../services/userService.js';
+import generateToken from '../utils/jwtUtils.js';
+import PasswordUtils from '../utils/passwordUtils.js';
 
 class UserController {
-  async registarion(req, res) {
+  async registration(req, res) {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {

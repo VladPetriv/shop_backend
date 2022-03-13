@@ -29,12 +29,9 @@ $ docker-compose up
 
 ```
 
-
-
 ## API Endpoints
 
-```
-
+``` bash
 User
 POST /api/registration/                       Register on site
 POST /api/login/                              Login to site
@@ -95,10 +92,11 @@ $ npm run dev
 $ npm run start
 
 ```
-Start server with docker:
+
+Start server with docker in development mode:
 
 ```bash
-#Make sure that docker installed on your system
+# Make sure that docker installed on your system
 $ docker-compose build
 $ docker-compose up 
 ```
@@ -106,6 +104,8 @@ $ docker-compose up
 ## Running the test suite
 
 ```bash
+# You can run the test only locally.There are no docker image for it
+# Before start run the tests please switch the database name in .env file
 # Make sure you're in the shop_backend root directory and run:
 $ npm install --dev
 $ npm test
