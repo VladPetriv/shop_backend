@@ -8,12 +8,14 @@ class ProductController {
   async getAllProduct(req, res) {
     try {
       const products = await ProductService.getAll();
+
       res.json(products);
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async getOneProduct(req, res) {
     try {
       const { id } = req.params;
@@ -21,6 +23,7 @@ class ProductController {
       if (!product) {
         return res.status(400).json({ message: NO_PRODUCT_WITH_ID });
       }
+
       return res.json(product);
     } catch (err) {
       console.error({ err });
@@ -35,10 +38,12 @@ class ProductController {
           errors: errors.array(),
         });
       }
+
       const { name, price, brandId, typeId, description } = req.body;
       const { img } = req.files;
       const fileName = v4() + '.jpg';
       img.mv(resolve(resolve(), 'static', fileName));
+
       const product = await ProductService.create(
         name,
         price,
@@ -47,12 +52,14 @@ class ProductController {
         fileName,
         description
       );
+
       res.json({ product, message: 'Product was created' });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async deleteProduct(req, res) {
     try {
       const { id } = req.params;
@@ -60,13 +67,16 @@ class ProductController {
       if (!candidate) {
         return res.status(400).json({ message: NO_PRODUCT_WITH_ID });
       }
+
       await ProductService.delete(id);
+
       res.json({ message: 'Product was deleted' });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async updateProduct(req, res) {
     try {
       const { id } = req.params;
@@ -75,6 +85,7 @@ class ProductController {
       if (!candidate) {
         return res.status(400).json({ message: NO_PRODUCT_WITH_ID });
       }
+
       await ProductService.update(
         id,
         name,
@@ -83,6 +94,7 @@ class ProductController {
         typeId,
         description
       );
+
       res.json({ message: 'Product was updated' });
     } catch (err) {
       console.error({ err });

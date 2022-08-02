@@ -16,13 +16,16 @@ class RatingController {
           message: NO_PRODUCT_WITH_ID,
         });
       }
+
       const ratings = await RatingService.getAll(productId);
+
       res.json({ ratings });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async getOneRating(req, res) {
     try {
       const { user } = req;
@@ -33,18 +36,21 @@ class RatingController {
           message: NO_PRODUCT_WITH_ID,
         });
       }
+
       const rating = await RatingService.getOne(user.id, productId);
       if (!rating) {
         return res.status(400).json({
           message: RATING_IS_NOT_EXIST,
         });
       }
+
       res.json({ rating });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async createRating(req, res) {
     try {
       const { user } = req;
@@ -56,19 +62,23 @@ class RatingController {
           message: NO_PRODUCT_WITH_ID,
         });
       }
+
       const candidate = await RatingService.getOne(user.id, productId);
       if (candidate) {
         return res.status(400).json({
           message: RATING_IS_EXIST,
         });
       }
+
       const rating = await RatingService.create(value, user.id, productId);
+
       res.json(rating);
     } catch (err) {
       console.error({ err });
       return res.status(500).json(err.message);
     }
   }
+
   async deleteRating(req, res) {
     try {
       const { user } = req;
@@ -79,19 +89,23 @@ class RatingController {
           message: NO_PRODUCT_WITH_ID,
         });
       }
+
       const candidate = await RatingService.getOne(user.id, productId);
       if (!candidate) {
         return res.status(400).json({
           message: RATING_IS_NOT_EXIST,
         });
       }
+
       await RatingService.delete(candidate.id);
+
       res.json({ message: 'Rating was deleted' });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async updateRating(req, res) {
     try {
       const { user } = req;
@@ -103,13 +117,16 @@ class RatingController {
           message: NO_PRODUCT_WITH_ID,
         });
       }
+
       const candidate = await RatingService.getOne(user.id, productId);
       if (!candidate) {
         return res.status(400).json({
           message: RATING_IS_NOT_EXIST,
         });
       }
+
       await RatingService.update(value, candidate.id, productId);
+
       res.json({ message: 'Rating was updated' });
     } catch (err) {
       console.error({ err });

@@ -11,18 +11,25 @@ class PasswordUtils {
       this.Securitykey,
       this.initVector
     );
+
     let encodedPassword = cipher.update(password, 'utf8', 'hex');
+
     encodedPassword += cipher.final('hex');
+
     return encodedPassword;
   }
+
   decodePassword(password) {
     const decipher = crypto.createDecipheriv(
       this.algorithm,
       this.Securitykey,
       this.initVector
     );
+
     let decodedPassword = decipher.update(password, 'hex', 'utf8');
+
     decodedPassword += decipher.final('utf8');
+
     return decodedPassword;
   }
   comparePassword(password, userPassword) {
@@ -30,6 +37,7 @@ class PasswordUtils {
     if (encodedUserPassword === password) {
       return true;
     }
+
     return false;
   }
 }

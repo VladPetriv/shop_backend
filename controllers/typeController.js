@@ -6,11 +6,13 @@ class TypeController {
   async getAllTypes(req, res) {
     try {
       const types = await TypeService.getAll();
+
       res.json(types);
     } catch (err) {
       res.status(500).json(err.message);
     }
   }
+
   async getOneType(req, res) {
     try {
       const { id } = req.params;
@@ -18,11 +20,13 @@ class TypeController {
       if (!type) {
         return res.status(400).json({ message: NO_TYPE_WITH_ID });
       }
+
       res.json(type);
     } catch (err) {
       res.status(500).json(err.message);
     }
   }
+
   async createType(req, res) {
     try {
       const errors = validationResult(req);
@@ -31,14 +35,17 @@ class TypeController {
           errors: errors.array(),
         });
       }
+
       const { name } = req.body;
       const type = await TypeService.create(name);
+
       res.json({ type, message: 'Type was created' });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async deleteType(req, res) {
     try {
       const { id } = req.params;
@@ -46,13 +53,16 @@ class TypeController {
       if (!candidate) {
         return res.status(400).json({ message: NO_TYPE_WITH_ID });
       }
+
       await TypeService.delete(id);
+
       res.json({ message: 'Type was deleted' });
     } catch (err) {
       console.error({ err });
       res.status(500).json(err.message);
     }
   }
+
   async updateType(req, res) {
     try {
       const { id } = req.params;
@@ -61,7 +71,9 @@ class TypeController {
       if (!candidate) {
         return res.status(400).json({ message: NO_TYPE_WITH_ID });
       }
+
       await TypeService.update(id, name);
+
       res.json({ message: 'Type was updated' });
     } catch (err) {
       console.error({ err });

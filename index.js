@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import path from 'path';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import router from './routes/mainRouter.js';
+
+dotenv.config();
 
 const app = express();
 const __dirname = path.resolve();

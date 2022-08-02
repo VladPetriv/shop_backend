@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import Sequelize from 'sequelize';
+
+dotenv.config();
+
 const db = new Sequelize(
   process.env.POSTGRES_NAME,
   process.env.POSTGRES_USER,
@@ -14,4 +16,5 @@ const db = new Sequelize(
     },
   }
 );
+
 export default db;

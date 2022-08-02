@@ -5,12 +5,15 @@ class RatingService {
     const rating = await Rating.findAll({
       where: { productId },
     });
+
     return rating;
   }
+
   async getOne(userId, productId) {
     const rating = await Rating.findOne({
       where: { userId, productId },
     });
+
     return rating;
   }
 
@@ -20,14 +23,18 @@ class RatingService {
       productId,
       userId,
     });
+
     return rating;
   }
+
   async delete(id) {
     const rating = await Rating.destroy({
       where: { id },
     });
+
     return rating;
   }
+
   async update(value, userId, productId) {
     const rating = await Rating.update(
       { value },
