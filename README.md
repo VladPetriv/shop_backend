@@ -1,37 +1,16 @@
 # shop_backend
 
-Example of backend side for online store
+## Description
+
+shop_backend - is backend side for online store.
 
 ## Technology
 
-NodeJS,Postgresql,Express,JWT,Sequelize,Jest,Supertest
-
-## Installation
-
-```bash
-# make sure postgresql is installed on your system
-
-# Clone the repo and install dependencies
-$ git clone https://github.com/VladPetriv/shop_backend
-$ cd shop_backend
-$ docker-compose build
-$ docker-compose up
-#Before this you need to create .env file with fields:[
-#PORT,- port for application
-#POSTGRES_NAME - database name
-#POSTGRES_USER - database user
-#POSTGRES_PASSWORD - database password
-#POSTGRES_HOST - database host
-#POSTGRES_PORT - database port
-#SECRET_KEY - secrete key for json web token
-#IMAGE_PATH - path to image for test suite
-#]
-
-```
+NodeJS, PostgreSQL, Express, JWT, Sequelize, Jest, Supertest
 
 ## API Endpoints
 
-``` bash
+```bash
 User
 POST /api/registration/                       Register on site
 POST /api/login/                              Login to site
@@ -81,32 +60,43 @@ PUT /api/rating/item/[productId]              Update own rating for product
 
 ## Usage
 
-Starting the server:
+### Before start you need to create .env file with this fields:
+
+- PORT - port for application
+- POSTGRES_NAME - database name
+- POSTGRES_USER - database user
+- POSTGRES_PASSWORD - database password
+- POSTGRES_HOST - database host
+- POSTGRES_PORT - database port
+- SECRET_KEY - secret key for json web token
+- IMAGE_PATH - path to image for test suites [use - ./image.jpg]
+
+### Starting the server:
 
 ```bash
-# To start the server make sure you're in the 'shop_backend'
-# root directory and run for development:
+# install dependencies:
+$ npm install
+
+# run in development mode:
 $ npm run dev
 
-# root directory and run for production:
+# run in production mode:
 $ npm run start
-
 ```
 
-Start server with docker in development mode:
+### Start server with docker-compose in development mode:
 
 ```bash
-# Make sure that docker installed on your system
 $ docker-compose build
-$ docker-compose up 
+
+$ docker-compose up
 ```
 
-## Running the test suite
+### Running the test suite
 
 ```bash
-# You can run the test only locally.There are no docker image for it
 # Before start run the tests please switch the database name in .env file
-# Make sure you're in the shop_backend root directory and run:
 $ npm install --dev
+
 $ npm test
 ```
